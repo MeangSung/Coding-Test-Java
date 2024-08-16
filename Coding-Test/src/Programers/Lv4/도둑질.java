@@ -1,4 +1,4 @@
-package Programers.Lv3;
+package Programers.Lv4;
 
 public class 도둑질 {
     public int solution(int[] money){
