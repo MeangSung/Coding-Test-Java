@@ -1,10 +1,8 @@
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Queue;
-
 public class Main {
-    public static void main(String[] args) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        System.out.println(sb.toString());
+    public static void main(String[] args)  {
+        String a = "skf";
+        String aa = Integer.toBinaryString(a.length());
+        System.out.println(aa);
+
     }
-}
+    }
