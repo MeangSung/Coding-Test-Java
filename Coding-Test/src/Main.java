@@ -1,70 +1,46 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-public class Main{
-    private static List<Integer>[] tree;
-    private static int[] dp;
-    public static void main(String[] args){
-        FastScan fs = new FastScan();
+public class Main {
 
-        int n = fs.nextInt();
-        dp = new int[n];
-        tree = new ArrayList[n];
-        for(int i = 0; i < n; i++) tree[i] = new ArrayList<>();
-        int[] input = Arrays.stream(fs.nextLine().split(" "))
-                .mapToInt(Integer::parseInt).toArray();
-        for(int i = 1; i < n; i++) tree[input[i]].add(i);
-        System.out.println(dfs(0));
+    private static BufferedReader bf;
+    private static StringTokenizer st;
+
+    private static int N;
+    private static int dp[];
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
+
+        bf=new BufferedReader(new InputStreamReader(System.in));
+        N=Integer.parseInt(bf.readLine());
+        dp=new int[N+1];
+        Arrays.fill(dp, Integer.MAX_VALUE);
+
+        int idx=0;
+        int diagram=diagramNum(idx);
+        for(int i=1;i<=N;i++) {
+            int next=diagramNum(idx+1);	// 다음 크기의 육각수 점 개수
+            if(i==next) {	// 현재 값이 다음 육각수의 점 개수와 같으면 1을 저장하고 다음으로 넘어감
+                dp[i]=1;
+                continue;
+            }
+            if(i>next) idx++;	// 현재 값이 다음 육각수의 점 개수보다 크면, 해당 육각수부터 처음 육각수까지 탐색하며 구하는 값이 최소인 경우를 찾음
+            for(int j=idx;j>=0;j--) {
+                diagram=diagramNum(j);
+                if(dp[diagram]==Integer.MAX_VALUE) continue;
+                dp[i]=Math.min(dp[i-diagram]+dp[diagram], dp[i]);
+
+            }
+        }
+
+        System.out.println(dp[N]);
     }
 
-    private static int dfs(int cur){
-        int cnt = 0, max = 0;
-        Queue<int[]> q = new PriorityQueue<>();
-        for(Integer next : tree[cur]){
-            dp[next] = dfs(next);
-            q.add(new int[]{next, dp[next]});
-        }
-
-        while(!q.isEmpty()){
-            int[] node = q.poll();
-            cnt++;
-            max = Math.max(max,cnt+node[1]);
-        }
-
-        return max;
+    public static int diagramNum(int n) {
+        if(n<=0) return 0;
+        return 2*n*n-n;
     }
-
-    static class FastScan{
-        BufferedReader br;
-        StringTokenizer st;
-
-        public FastScan(){
-            br = new BufferedReader(new InputStreamReader(System.in));
-        }
-
-        String next(){
-            while(st == null || !st.hasMoreElements()){
-                try{
-                    st = new StringTokenizer(br.readLine());
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
-
-        int nextInt(){return Integer.parseInt(next());}
-        String nextLine(){
-            String str = "";
-            try{
-                str = br.readLine();
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
-
 }
