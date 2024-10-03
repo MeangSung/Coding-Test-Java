@@ -1,6 +1,13 @@
-import java.util.*;
+package Programers.Lv1;
 
-class Main {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+public class 개인정보수집유효기간 {
     public static int[] solution(String today, String[] terms, String[] privacies) {
         StringTokenizer st;
 
