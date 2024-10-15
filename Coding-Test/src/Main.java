@@ -1,7 +1,7 @@
-import java.util.*;
-
 class Main {
     public static void main(String[] args) {
-        System.out.println('B' - 'A');
+        char[] c = {'a', 'b', 'c'};
+
+        System.out.println((char) ('A' + 1));
     }
 }
