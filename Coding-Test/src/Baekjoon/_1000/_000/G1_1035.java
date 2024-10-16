@@ -17,19 +17,19 @@ public class G1_1035 {
         new G1_1035().sol();
     }
 
-    private void sol() throws IOException {
+    private void sol() throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         pieces = new ArrayList<>();
 
         for(int i = 0; i < 5; i++){
-            String str = br.readLine();
-
+            String strArr = br.readLine();
             for(int j = 0; j < 5; j++){
-                if(str.charAt(j) == '*'){
+                if(strArr.charAt(j) == '*'){
                     pieces.add(new Pos(i,j));
                 }
             }
         }
+
         n = pieces.size();
         bfs(0,0);
         System.out.println(res);
@@ -38,17 +38,18 @@ public class G1_1035 {
     private void bfs(int idx, int sum){
         if(res <= sum) return;
         if(idx == n){
-            if(check()) {
+            if(check()){
                 res = sum;
             }
             return;
         }
+
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
                 if(loc[i][j]) continue;
                 int distant = Math.abs(pieces.get(idx).x - i) + Math.abs(pieces.get(idx).y - j);
                 loc[i][j] = true;
-                bfs(idx+1, sum+distant);
+                bfs(idx+1, sum + distant);
                 loc[i][j] = false;
             }
         }
@@ -57,29 +58,29 @@ public class G1_1035 {
     private boolean check(){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
-                if (loc[i][j]) {
-                    Stack<Pos> stack = new Stack<>();
-                    stack.push(new Pos(i,j));
-                    boolean[][] valid = new boolean[5][5];
-                    valid[i][j] = true;
+                if(loc[i][j]){
+                    Stack<Pos> stk = new Stack<>();
+                    boolean[][] validate = new boolean[5][5];
                     int cnt = 0;
-                    while(!stack.isEmpty()){
-                        Pos cur = stack.pop();
+                    stk.push(new Pos(i,j));
+                    validate[i][j] = true;
+                    while(!stk.isEmpty()){
+                        Pos cur = stk.pop();
                         cnt++;
                         for(int k = 0; k < 4; k++){
-                            int cx = cur.x + directions[k][0];
-                            int cy = cur.y + directions[k][1];
+                            int cx = cur.x - directions[k][0];
+                            int cy = cur.y - directions[k][1];
 
-                            if(cx < 0 || cx >= 5 || cy < 0 || cy >= 5) continue;
-                            if(valid[cx][cy]) continue;
+                            if(cx < 0 || cx > 4 || cy < 0 || cy > 4) continue;
+                            if(validate[cx][cy]) continue;
                             if(!loc[cx][cy]) continue;
 
-                            valid[cx][cy] = true;
-                            stack.push(new Pos(cx,cy));
+                            validate[cx][cy] = true;
+                            stk.push(new Pos(cx,cy));
                         }
                     }
-                    if(cnt == n) return true;
-                    return false;
+
+                    return n == cnt;
                 }
             }
         }
@@ -89,10 +90,9 @@ public class G1_1035 {
     class Pos{
         int x,y;
 
-        public Pos(int x, int y) {
+        public Pos(int x, int y){
             this.x = x;
             this.y = y;
         }
     }
-
 }
