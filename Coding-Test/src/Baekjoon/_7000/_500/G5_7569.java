@@ -1,3 +1,5 @@
+package Baekjoon._7000._500;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,7 +10,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 import java.util.concurrent.ExecutionException;
 
-public class Main {
+public class G5_7569 {
     static int n,m,h;
     static int[][][] box;
     static int[][] direction = {{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1}};
