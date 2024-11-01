@@ -1,104 +1,28 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.StringTokenizer;
-import java.util.concurrent.ExecutionException;
-
 public class Main {
-    static int n,m,h;
-    static int[][][] box;
-    static int[][] direction = {{1,0,0},{-1,0,0},{0,1,0},{0,-1,0},{0,0,1},{0,0,-1}};
+    public static void main(String[] args) {
+        int[][] a = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
 
-    public static void main(String[] args) throws InterruptedException, ExecutionException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        m = Integer.parseInt(st.nextToken());
-        n = Integer.parseInt(st.nextToken());
-        h = Integer.parseInt(st.nextToken());
-
-        box = new int[h][n][m];
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < n; j++) {
-                st = new StringTokenizer(br.readLine());
-                for(int k = 0; k < m; k++) {
-                    box[i][j][k] = Integer.parseInt(st.nextToken());
-                }
-            }
+        //얕은 복사
+        int[][] b =a.clone();
+        System.out.print("a,b 배열안의 배열주소 비교 : ");
+        System.out.println(b == a? "같습니다" : "다릅니다");
+        for(int i = 0; i < b.length; i++){
+            System.out.print("a,b 배열안의 배열의 값 주소 비교 : ");
+            System.out.println(b[i] == a[i]? "같습니다" : "다릅니다");
         }
-        System.out.println(sol());
-    }
+        System.out.println();
 
-    private static int sol() {
-        int day = bfs();
-        return lastCheck() ? day : -1;
-    }
-
-    private static int bfs() {
-        Queue<Pair> q = new LinkedList<>();
-        int day = 0;
-
-        for(int[] arr : initCheck()) q.offer(new Pair(arr,0));
-
-        while(!q.isEmpty()) {
-            Pair p = q.poll();
-
-            day = Math.max(day,p.day);
-
-            for(int[] dir : direction) {
-                int ch = p.loc[0] + dir[0];
-                int cx = p.loc[1] + dir[1];
-                int cy = p.loc[2] + dir[2];
-
-                if(ch < 0 || ch >= h || cx < 0 || cx >= n || cy < 0 || cy >= m) continue;
-                if(box[ch][cx][cy] != 0) continue;
-
-                box[ch][cx][cy] = 1;
-                q.offer(new Pair(new int[]{ch,cx,cy},p.day+1));
-            }
+        //깊은 복사
+        int[][] c = new int[a.length][a[0].length];
+        for(int i=0;i<a.length;i++){
+            c[i]=a[i].clone();
         }
-
-        return day;
-    }
-
-    private static List<int[]> initCheck() {
-        List<int[]> init = new ArrayList<>();
-
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < n; j++) {
-                for (int k = 0; k < m; k++) {
-                    if(box[i][j][k] == 1) {
-                        init.add(new int[]{i, j, k});
-                    }
-                }
-            }
+        System.out.print("a,c 배열안의 배열주소 비교 : ");
+        System.out.println(c==a? "같습니다" : "다릅니다");
+        for(int i = 0; i < c.length; i++){
+            System.out.print("a,c 배열안의 배열의 값 주소 비교 : ");
+            System.out.println(c[i] == a[i]? "같습니다" : "다릅니다");
         }
-        return init;
-    }
-
-    private static boolean lastCheck(){
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < n; j++) {
-                for (int k = 0; k < m; k++) {
-                    if(box[i][j][k] == 0) return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    static class Pair{
-        int[] loc;
-        int day;
-
-        public Pair(int[] loc, int day) {
-            this.loc = loc;
-            this.day = day;
-        }
+        System.out.println();
     }
 }
