@@ -1,11 +1,10 @@
 package Baekjoon._00000._1000._600;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class S2_1654 {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
     Scanner sc = new Scanner(System.in);
 
     int k = sc.nextInt();
