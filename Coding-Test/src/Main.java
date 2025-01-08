@@ -1,10 +1,23 @@
 import Programers.Lv3.입국심사;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        입국심사 test = new 입국심사();
+        List<Integer> list = new ArrayList<>();
 
-        System.out.println(test.solution(6,new int[]{7,10}));
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        list.remove(1);
+        list.removeAll(List.of());
+
+        for (Integer i : list) {
+            System.out.printf(i + " ");
+        }
     }
 }
