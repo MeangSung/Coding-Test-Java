@@ -1,23 +1,41 @@
-import Programers.Lv3.입국심사;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
 
+        int n = sc.nextInt();
         List<Integer> list = new ArrayList<>();
-
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        list.add(5);
-
-        list.remove(1);
-        list.removeAll(List.of());
-
-        for (Integer i : list) {
-            System.out.printf(i + " ");
+        for(int i = 0; i < n; i++){
+            list.add(sc.nextInt());
         }
+        Collections.sort(list);
+
+        System.out.println(sol(n, list));
+    }
+
+
+    private static int sol(int n, List<Integer> list){
+        List<Integer> two = new ArrayList<>();
+
+        for(int i = 0; i < n; i++){
+            for(int j = i; j < n; j++){
+                two.add(list.get(i) + list.get(j));
+            }
+        }
+
+        Collections.sort(two);
+
+        int max = 0;
+        for(int i = n-1; i >= 0; i--){
+            for(int j = 0; j < n; j++){
+                int point = Collections.binarySearch(two, list.get(i) - list.get(j));
+                if(point >= 0){
+                    max = Math.max(max, list.get(i));
+                }
+            }
+        }
+
+        return max;
     }
 }
