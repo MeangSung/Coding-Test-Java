@@ -5,21 +5,21 @@ import java.util.Scanner;
 
 public class S2_1654 {
     public static void main(String[] args){
-    Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-    int k = sc.nextInt();
-    int n = sc.nextInt();
+        int k = sc.nextInt();
+        int n = sc.nextInt();
 
-    long[] arr = new long[k];
+        long[] arr = new long[k];
 
-    for(int i = 0; i < k; i++){
-        arr[i] = sc.nextLong();
+        for(int i = 0; i < k; i++){
+            arr[i] = sc.nextLong();
+        }
+        System.out.println(sol(k,n,arr));
+        System.out.println(sol2(k,n,arr));
     }
 
-    System.out.println(sol(k,n,arr));
-    System.out.println(sol2(k,n,arr));
-}
-
+    // Parametric Search - solve 뺀 경우
     private static long sol2(int k, int n, long[] arr){
 
         long st = 0;
@@ -40,6 +40,7 @@ public class S2_1654 {
         return count >= n;
     }
 
+    //solve()로 빼지 않은 것
     private static long sol(int k, int n, long[] arr){
         Arrays.sort(arr);
 
