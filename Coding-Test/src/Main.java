@@ -1,41 +1,38 @@
 import java.util.*;
 
 public class Main{
+    static int[] arr = new int[10005];
+    static int k,n;
+
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
 
-        int n = sc.nextInt();
-        List<Integer> list = new ArrayList<>();
-        for(int i = 0; i < n; i++){
-            list.add(sc.nextInt());
-        }
-        Collections.sort(list);
+        k = sc.nextInt();
+        n = sc.nextInt();
 
-        System.out.println(sol(n, list));
+        for(int i = 0; i < k; i++) arr[i] = sc.nextInt();
+
+        System.out.println(solution());
     }
 
+    private static long solution(){
 
-    private static int sol(int n, List<Integer> list){
-        List<Integer> two = new ArrayList<>();
+        long st = 0;
+        long en = Integer.MAX_VALUE;
 
-        for(int i = 0; i < n; i++){
-            for(int j = i; j < n; j++){
-                two.add(list.get(i) + list.get(j));
-            }
+        while(st < en){
+            long mid = (st+en+1)/2;
+            if(solve(mid)) st = mid;
+            if(!solve(mid)) en = mid - 1;
         }
 
-        Collections.sort(two);
-
-        int max = 0;
-        for(int i = n-1; i >= 0; i--){
-            for(int j = 0; j < n; j++){
-                int point = Collections.binarySearch(two, list.get(i) - list.get(j));
-                if(point >= 0){
-                    max = Math.max(max, list.get(i));
-                }
-            }
-        }
-
-        return max;
+        return st;
     }
+
+    private static boolean solve(long x){
+        long count = 0;
+        for(int i = 0; i < k; i++) count += arr[i]/x;
+        return count >= n;
+    }
+
 }

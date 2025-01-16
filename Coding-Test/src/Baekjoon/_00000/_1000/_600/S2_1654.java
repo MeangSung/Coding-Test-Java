@@ -17,17 +17,37 @@ public class S2_1654 {
     }
 
     System.out.println(sol(k,n,arr));
+    System.out.println(sol2(k,n,arr));
 }
+
+    private static long sol2(int k, int n, long[] arr){
+
+        long st = 0;
+        long en = Integer.MAX_VALUE;
+
+        while(st < en){
+            long mid = (st+en+1)/2;
+            if(solve(mid, k, n, arr)) st = mid;
+            if(!solve(mid, k, n, arr)) en = mid - 1;
+        }
+
+        return st;
+    }
+
+    private static boolean solve(long x,int k, int n, long[] arr){
+        long count = 0;
+        for(int i = 0; i < k; i++) count += arr[i]/x;
+        return count >= n;
+    }
 
     private static long sol(int k, int n, long[] arr){
         Arrays.sort(arr);
 
         long max = arr[k-1]+1;
-        long mid = 0;
         long min = 0;
 
         while(min < max){
-            mid = (max+min) / 2;
+            long mid = (max+min) / 2;
 
             long count = 0;
 
