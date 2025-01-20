@@ -1,7 +1,9 @@
+package Baekjoon._10000._8000._800;
+
 import java.io.*;
 import java.util.*;
 
-public class Main{
+public class G5_18869{
     static int n,m;
     static int[][] uni;
 
@@ -9,8 +11,8 @@ public class Main{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int m = Integer.parseInt(st.nextToken());
-        int n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
 
         uni = new int[m][n];
         for(int i = 0; i < m; i++){
