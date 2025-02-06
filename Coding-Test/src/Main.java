@@ -1,59 +1,37 @@
-import java.io.*;
 import java.util.*;
 
 public class Main{
     static int n,m;
-    static int[][] uni;
+    static int[] temp = new int[10];
+    static boolean[] visited = new boolean[10];
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = sc.nextInt();
+        m = sc.nextInt();
 
-        int m = Integer.parseInt(st.nextToken());
-        int n = Integer.parseInt(st.nextToken());
+        sol(0);
+        System.out.println(sb.toString());
+    }
 
-        uni = new int[m][n];
-        for(int i = 0; i < m; i++){
-            st = new StringTokenizer(br.readLine());
-            for(int j = 0; j < n; j++){
-                uni[i][j] = Integer.parseInt(st.nextToken());
+    private static void sol(int k){
+        if(k >= m){
+            for(int i = 0; i < m; i++){
+                sb.append(temp[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for(int i=1; i<=n; i++){
+            if(!visited[i]){
+                visited[i] = true;
+                temp[k] = i;
+                sol(k+1);
+                visited[i] = false;
             }
         }
-
-        System.out.println(solution());
-    }
-
-    private static int solution(){
-        for(int i = 0; i < m; i++){
-            compress(uni[i]);
-        }
-
-        int res = 0;
-        for(int i = 0; i < m-1; i++){
-            for(int j = i+1; j < m; j++){
-                if(compare(uni[i],uni[j])) res++;
-            }
-        }
-        return res;
-    }
-
-    private static void compress(int[] arr){
-        List<Integer> v = new ArrayList<>();
-        for(int num : arr) v.add(num);
-
-        Collections.sort(v);
-        v = new ArrayList<>(new LinkedHashSet<>(v));
-
-        for(int i = 0; i < n; i++){
-            arr[i] = Collections.binarySearch(v, arr[i]);
-        }
-    }
-
-    private static boolean compare(int[] a, int[] b){
-        for(int i = 0; i < n; i++){
-            if(a[i] != b[i]) return false;
-        }
-        return true;
     }
 
 }
