@@ -1,37 +1,60 @@
 import java.util.*;
+import java.io.*;
 
 public class Main{
     static int n,m;
-    static int[] temp = new int[10];
-    static boolean[] visited = new boolean[10];
-    static StringBuilder sb = new StringBuilder();
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+    static int[] arr;
+    static int[] temp;
+    static boolean[] visited;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n = sc.nextInt();
-        m = sc.nextInt();
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        sol(0);
-        System.out.println(sb.toString());
+        arr = new int[n];
+        temp = new int[m];
+        visited = new boolean[n];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        Arrays.sort(arr);
+
+        System.out.println(sol());
     }
 
-    private static void sol(int k){
+    private static String sol(){
+        Set<String> set = new LinkedHashSet<>();
+        StringBuilder sb = new StringBuilder();
+
+        dfs(0, set);
+
+        for(String str : set) sb.append(str).append("\n");
+
+        return sb.toString();
+    }
+
+    private static void dfs(int k, Set<String> set){
         if(k >= m){
+            StringBuilder sb = new StringBuilder();
             for(int i = 0; i < m; i++){
                 sb.append(temp[i]).append(" ");
             }
-            sb.append("\n");
+            set.add(sb.toString());
             return;
         }
 
-        for(int i=1; i<=n; i++){
+        for(int i = 0; i < n; i++){
             if(!visited[i]){
                 visited[i] = true;
-                temp[k] = i;
-                sol(k+1);
+                temp[k] = arr[i];
+                dfs(k+1, set);
                 visited[i] = false;
             }
         }
     }
-
 }
