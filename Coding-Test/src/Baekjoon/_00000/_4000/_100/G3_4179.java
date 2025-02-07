@@ -1,4 +1,4 @@
-package Baekjoon._00000._4000;
+package Baekjoon._00000._4000._100;
 
 import java.io.BufferedReader;
 import java.io.IOException;
