@@ -27,7 +27,7 @@ public class G4_9663 {
         }
 
         for(int i = 0; i < N; i++) {
-            if (isUsed1[i] || isUsed2[cur + i] || isUsed3[cur-i+N-1]){
+            if (isUsed1[i] || isUsed2[cur + i] || isUsed3[cur - i + N - 1]) {
                 continue;
             }
             isUsed1[i] = true;

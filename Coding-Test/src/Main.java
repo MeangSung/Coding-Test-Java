@@ -1,60 +1,38 @@
 import java.util.*;
-import java.io.*;
 
 public class Main{
-    static int n,m;
-    static int[] arr;
-    static int[] temp;
-    static boolean[] visited;
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    static int n;
+    static boolean[] isUsed1 = new boolean[16];
+    static boolean[] isUsed2 = new boolean[32];
+    static boolean[] isUsed3 = new boolean[32];
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+    static int cnt = 0;
 
-        arr = new int[n];
-        temp = new int[m];
-        visited = new boolean[n];
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
 
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++){
-            arr[i] = Integer.parseInt(st.nextToken());
-        }
+        n = sc.nextInt();
 
-        Arrays.sort(arr);
+        sol(0);
 
-        System.out.println(sol());
+        System.out.println(cnt);
     }
 
-    private static String sol(){
-        Set<String> set = new LinkedHashSet<>();
-        StringBuilder sb = new StringBuilder();
-
-        dfs(0, set);
-
-        for(String str : set) sb.append(str).append("\n");
-
-        return sb.toString();
-    }
-
-    private static void dfs(int k, Set<String> set){
-        if(k >= m){
-            StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < m; i++){
-                sb.append(temp[i]).append(" ");
-            }
-            set.add(sb.toString());
+    private static void sol(int cur){
+        if(cur == n){
+            cnt++;
             return;
         }
 
         for(int i = 0; i < n; i++){
-            if(!visited[i]){
-                visited[i] = true;
-                temp[k] = arr[i];
-                dfs(k+1, set);
-                visited[i] = false;
-            }
+            if(isUsed1[i] || isUsed2[cur + i] || isUsed3[cur - i + n - 1]) continue;
+            isUsed1[i] = true;
+            isUsed2[i+cur] = true;
+            isUsed3[cur - i + n - 1] = true;
+            sol(cur + 1);
+            isUsed1[i] = false;
+            isUsed2[i+cur] = false;
+            isUsed3[cur - i + n - 1] = false;
         }
     }
 }

@@ -14,10 +14,10 @@ public class S2_18870 {
         for(int i = 0; i < N; i++) {
             arr[i] = sc.nextInt();
         }
-        System.out.println(sol(N,arr));
+        System.out.println(sol(arr));
     }
 
-    private static String sol(int N, int[] arr) {
+    private static String sol(int[] arr) {
         StringBuilder sb = new StringBuilder();
 
         List<Integer> uni = makeUniqueList(arr);
