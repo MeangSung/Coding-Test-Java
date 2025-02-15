@@ -1,65 +1,44 @@
 import java.util.*;
+import java.io.*;
 
 public class Main{
-    static char[][] map = new char[5][5];
-    static boolean[] visited = new boolean[25];
-    static int[] selected = new int[7];
-    static int[][] directions = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
-    static int res = 0;
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+    static int n,m;
+    static int[] temp;
+    static List<Integer> list = new ArrayList<>();
+    static StringBuilder sb = new StringBuilder();
+    public static void main(String[] args) throws IOException {
 
-        for(int i = 0; i < 5; i++){
-            map[i] = sc.nextLine().toCharArray();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        temp = new int[m];
+
+        st = new StringTokenizer(br.readLine());
+        while(st.hasMoreTokens()) {
+            int comp = Integer.parseInt(st.nextToken());
+            if(!list.contains(comp)) {
+                list.add(comp);
+            }
         }
 
-        find(0,0,0);
+        sol(0,0);
+
+        System.out.println(sb);
     }
 
-    private static void find(int idx, int cnt, int sCnt){
-        if(cnt == 7){
-            if(sCnt >= 4){
-                if(search()) res++;
-                return;
-            }
+    private static void sol(int st, int cnt){
+        if(cnt == m){
+            for(int num : temp) sb.append(num).append(" ");
+            sb.append("\n");
             return;
         }
 
-        for(int i = idx; i < 25; i++){
-            selected[cnt] = i;
-            visited[i] = true;
-            if(map[i/5][i%5] == 'S') find(i+1, cnt+1, sCnt+1);
-            else find(i+1,cnt+1,sCnt);
-            visited[i] = false;
+        for(int i = st; i < list.size(); i++){
+            temp[cnt] = list.get(i);
+            sol(i, cnt+1);
         }
     }
-
-    private static boolean search(){
-        int cnt = 1;
-        boolean[] adjVisited = new boolean[25];
-        Queue<Integer> q = new LinkedList<>();
-
-        q.add(selected[0]);
-
-        while(!q.isEmpty()){
-            int now = q.poll();
-            adjVisited[now] = true;
-
-            for(int[] d : directions){
-                int cx = now/5 + d[0];
-                int cy = now%5 + d[1];
-
-                if(cx < 0 || cy < 0 || cx >= 5 || cy >= 5) continue;
-                if(adjVisited[cx*5+cy]) continue;
-                if(!visited[cx*5+cy]) continue;
-
-                cnt++;
-                adjVisited[cx*5+cy] = true;
-                q.add(cx*5+cy);
-            }
-        }
-
-        return cnt == 7;
-    }
-
 }

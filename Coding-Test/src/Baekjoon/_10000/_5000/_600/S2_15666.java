@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class S2_15665 {
+public class S2_15666 {
     static int n,m;
     static List<Integer> arr = new ArrayList<>();
     static StringBuilder sb = new StringBuilder();
@@ -21,6 +21,7 @@ public class S2_15665 {
         m = Integer.parseInt(st.nextToken());
 
         temp = new int[m];
+
         st = new StringTokenizer(br.readLine());
         while(st.hasMoreTokens()) {
             int comp = Integer.parseInt(st.nextToken());
@@ -32,13 +33,13 @@ public class S2_15665 {
 
         Collections.sort(arr);
 
-        sol(0);
+        sol(0, 0);
 
         System.out.println(sb);
     }
 
-    private static void sol(int cnt) {
-        if(cnt == m){
+    private static void sol(int st, int k) {
+        if(k == m) {
             for(int num : temp){
                 sb.append(num).append(" ");
             }
@@ -46,10 +47,9 @@ public class S2_15665 {
             return;
         }
 
-        for (Integer integer : arr) {
-            temp[cnt] = integer;
-            sol(cnt + 1);
-
+        for(int i = st; i < arr.size(); i++) {
+            temp[k] = arr.get(i);
+            sol(i, k+1);
         }
     }
 }
