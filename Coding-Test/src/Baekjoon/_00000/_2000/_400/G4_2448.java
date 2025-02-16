@@ -1,6 +1,8 @@
+package Baekjoon._00000._2000._400;
+
 import java.util.Scanner;
 
-public class Main{
+public class G4_2448 {
     static boolean[][] board = new boolean[1024*3][1024*3*2-1];
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args){
