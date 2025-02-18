@@ -1,45 +1,70 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
-public class Main{
-    static boolean[][] board = new boolean[1024*3][1024*3*2-1];
-    static StringBuilder sb = new StringBuilder();
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+public class Main {
+    final static int[][] dirs = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    static int n;
+    static char[][] map;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = sc.nextInt();
+        n = Integer.parseInt(st.nextToken());
 
-        sol(n, 0, n-1);
+        map = new char[n][n];
 
-        printStars(n);
-
-        System.out.println(sb);
-    }
-
-    private static void sol(int n, int x, int y){
-        if(n == 3){
-            fillStars(x,y);
-            return;
+        for (int i = 0; i < n; i++) {
+            map[i] = br.readLine().toCharArray();
         }
 
-        int cn = n / 2;
-        sol(cn,x,y);
-        sol(cn, x+cn, y-cn);
-        sol(cn, x+cn, y+cn);
+
+        System.out.println(sol(false)+" "+sol(true));
     }
 
-    private static void fillStars(int x, int y){
-        board[x][y] = true;
-        board[x+1][y-1] = true;
-        board[x+1][y+1] = true;
-        for(int i = y-2; i <= y+2; i++) board[x+2][i] = true;
-    }
-
-    private static void printStars(int n){
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n*2-1; j++){
-                sb.append(board[i][j] ? "*" : " ");
+    private static int sol(boolean blindness) {
+        boolean[][] visited = new boolean[n][n];
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if(!visited[i][j]) {
+                    bfs(i, j, blindness, visited);
+                    cnt++;
+                }
             }
-            sb.append("\n");
+        }
+        return cnt;
+    }
+
+    private static void bfs(int a, int b, boolean blindness, boolean[][] visited) {
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{a,b});
+        visited[a][b] = true;
+
+        while(!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0], y = cur[1];
+
+            for(int[] dir : dirs) {
+                int cx = x + dir[0], cy = y + dir[1];
+
+                if(cx < 0 || cx >= n || cy < 0 || cy >= n) continue;
+                if(visited[cx][cy]) continue;
+
+                if(blindness && (map[x][y] == 'R' || map[x][y] == 'G')) {
+                    if(map[cx][cy] == 'R' || map[cx][cy] == 'G') {
+                        q.offer(new int[]{cx,cy});
+                        visited[cx][cy] = true;
+                    }
+                }
+                else if(map[cx][cy] == map[x][y]) {
+                    q.offer(new int[]{cx,cy});
+                    visited[cx][cy] = true;
+                }
+            }
         }
     }
 }
