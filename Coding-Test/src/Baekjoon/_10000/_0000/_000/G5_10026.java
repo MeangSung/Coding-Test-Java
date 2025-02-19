@@ -23,17 +23,17 @@ public class G5_10026 {
             map[i] = br.readLine().toCharArray();
         }
 
-
         System.out.println(sol(false)+" "+sol(true));
     }
 
-    private static int sol(boolean blindness) {
+    private static int sol(boolean blindness){
         boolean[][] visited = new boolean[n][n];
         int cnt = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
                 if(!visited[i][j]) {
-                    bfs(i, j, blindness, visited);
+                    visited[i][j] = true;
+                    bfs(i, j, visited,blindness);
                     cnt++;
                 }
             }
@@ -41,10 +41,9 @@ public class G5_10026 {
         return cnt;
     }
 
-    private static void bfs(int a, int b, boolean blindness, boolean[][] visited) {
+    private static void bfs(int a, int b, boolean[][] visited, boolean blindness) {
         Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{a,b});
-        visited[a][b] = true;
+        q.offer(new int[]{a, b});
 
         while(!q.isEmpty()) {
             int[] cur = q.poll();
@@ -55,15 +54,14 @@ public class G5_10026 {
 
                 if(cx < 0 || cx >= n || cy < 0 || cy >= n) continue;
                 if(visited[cx][cy]) continue;
-
-                if(blindness && (map[x][y] == 'R' || map[x][y] == 'G')) {
-                    if(map[cx][cy] == 'R' || map[cx][cy] == 'G') {
-                        q.offer(new int[]{cx,cy});
+                if(blindness && (map[cx][cy] == 'R' || map[cx][cy] == 'G')) {
+                    if(map[x][y] == 'R' || map[x][y] == 'G') {
+                        q.offer(new int[]{cx, cy});
                         visited[cx][cy] = true;
                     }
                 }
                 else if(map[cx][cy] == map[x][y]) {
-                    q.offer(new int[]{cx,cy});
+                    q.offer(new int[]{cx, cy});
                     visited[cx][cy] = true;
                 }
             }
