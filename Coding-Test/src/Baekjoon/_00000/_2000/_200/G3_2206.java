@@ -1,7 +1,9 @@
+package Baekjoon._00000._2000._200;
+
 import java.util.*;
 import java.io.*;
 
-public class Main{
+public class G3_2206{
     static final int[][] dirs = {{1,0},{0,1},{-1,0},{0,-1}};
     static int n,m;
     static int[][] map;
@@ -38,7 +40,7 @@ public class Main{
     private static int bfs(){
         Queue<int[]> q = new LinkedList<>();
         q.offer(new int[]{0,0,0});
-        dist[0][0][0] = dist[0][0][1] = 1;
+        dist[0][0][0] = 1;
 
         while(!q.isEmpty()){
             int[] cur = q.poll();
@@ -47,7 +49,7 @@ public class Main{
             int y = cur[1];
             int broken = cur[2];
 
-            if(x == n && y == m) return dist[x][y][broken];
+            if(x == n -1 && y == m-1) return dist[x][y][broken];
 
             for(int[] d : dirs){
                 int cx = x + d[0];
